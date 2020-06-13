@@ -1,15 +1,17 @@
 //加载Express模块
 const express = require('express');
-
 //加载cors模块
 const cors = require('cors');
-
 //加载MySQL模块
 const mysql = require('mysql');
-
 //加载body-parser模块
 const bodyParser = require('body-parser');
-
+// 加载Multer模块
+const multer = require('multer');
+//加载fs模块(FileSystem)
+const fs = require('fs');
+// 加载uuid模块
+const uuid = require('uuid');
 //创建MySQL连接池
 const pool = mysql.createPool({
     //MySQL数据库服务器的地址
