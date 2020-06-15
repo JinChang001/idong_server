@@ -77,7 +77,7 @@ server.get('/getArticles',(req,res)=>{
     //页码应该是滚动触发loadMore()函数时提交给服务器
     var offset = (page - 1) * pagesize;
     //以获取到的cid参数为条件查询该分类下的文章信息
-    sql = 'SELECT article_id,article_title,article_image FROM ency_article WHERE ency_category_id=? LIMIT ' + offset + ',' + pagesize;
+    sql = 'SELECT article_id,article_title,article_image,read_count,is_hot FROM ency_article WHERE ency_category_id=? LIMIT ' + offset + ',' + pagesize;
 
     //执行SQL查询
     pool.query(sql,[cid],(err,results)=>{
@@ -96,8 +96,7 @@ server.get('/encyArticle',(req,res)=>{
     var id = req.query.id;
     // console.log(id)
     //根据ID查询指定文章的SQL
-    var sql = 'SELECT article_title,article_content,article_at FROM ency_article WHERE article_id=?';
-
+    var sql = 'SELECT article_title,article_content,article_at,read_count FROM ency_article WHERE article_id=?';
     pool.query(sql,[id],(err,results)=>{
 
         if(err) throw err;
@@ -106,6 +105,20 @@ server.get('/encyArticle',(req,res)=>{
     });
      
 });
+
+
+//修改文章阅读量
+server.post('/setRead',(req,res)=>{
+    var id = req.query.id;
+    var read_count = req.query.read_count;
+    var sql_setRead = 'UPDATE ency_article set read_count=? where article_id=?';
+    pool.query(sql_setRead,[read_count,id],(err,results)=>{
+
+        if(err) throw err;
+        res.send({message:'查询成功',code:200,setRead:results[0]});
+
+    });
+})
 
 // //用户注册API
 // server.post('/register',(req,res)=>{
