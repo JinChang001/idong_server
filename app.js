@@ -120,18 +120,7 @@ server.post('/setRead',(req,res)=>{
     });
 })
 
-// //用户注册API
-// server.post('/register',(req,res)=>{
-//     //获取用户的注册信息
-//     var username=req.body.username;
-//     var password=req.body.password;
 
-//     var sql="insert xzqa_author(username,password) values(?,?)";
-//     pool.query(sql,[username,password],(err,results)=>{
-//         if(err) throw err;
-//         res.send("OK");
-//     })
-// })
 
 server.listen(9001);
 
