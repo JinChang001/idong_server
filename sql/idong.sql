@@ -20,6 +20,24 @@ CREATE TABLE idong_user(
   user_desc TEXT COMMENT '用户个性签名'
 )ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
 
+
+/******01_用户信息表数据插入******/
+INSERT INTO idong_user(user_name,user_password,user_phone,user_avatar,user_sex,user_desc) VALUES 
+('黑色纯牛M奶','25f9e794323b453885f5181f1b624d0b','18568022081','b86fd6fe4ac391ef9640f708126be782.jpg',0,'Ta什么都没有留下~'),
+('风之谷z','25f9e794323b453885f5181f1b624d0b','18690149686','b7601a2d86dca2f27f242d39990a69f1.jpg',0,'Ta什么都没有留下~'),
+('庚方丽理','25f9e794323b453885f5181f1b624d0b','15718455722','ef0f17652532acdd3bdb2cfe8e2145b6.jpg',0,'Ta什么都没有留下~'),
+('阐炜辉','25f9e794323b453885f5181f1b624d0b','18549378598','c8df2bf923c5ed5903856e6d6536db84.jpg',0,'Ta什么都没有留下~'),
+('伯启根','25f9e794323b453885f5181f1b624d0b','14443587174','ea7df996ea459559daf2c5c88522f004.jpg',0,'Ta什么都没有留下~'),
+('旅行泡沫','25f9e794323b453885f5181f1b624d0b','17205081685','67dc95b3e04363e2bd59535558965083.jpg',0,'Ta什么都没有留下~'),
+('燕雨y传','25f9e794323b453885f5181f1b624d0b','18557705223','181500c57b410bcc35000ac695e9aadc.jpg',0,'Ta什么都没有留下~'),
+('稀稀哩哩','25f9e794323b453885f5181f1b624d0b','14672038675','4b046c0e5e19a892b571898a012299ae.jpg',0,'Ta什么都没有留下~'),
+('天街小雨','25f9e794323b453885f5181f1b624d0b','15484677641','877f60343d776c31756f1da785be5136.jpg',0,'Ta什么都没有留下~'),
+('浮云不说话','25f9e794323b453885f5181f1b624d0b','18946869796','c800fc81c7592383874ba77e40ca480d.jpg',0,'Ta什么都没有留下~'),
+('左耳似水正','25f9e794323b453885f5181f1b624d0b','13301848205','479a9e669da10e0054263a817f5d1de7.jpg',0,'Ta什么都没有留下~'),
+('吃草莓要吐籽','25f9e794323b453885f5181f1b624d0b','13776297656','8f3405807abe4bc9d8a649504a39da70.jpg',0,'Ta什么都没有留下~'),
+('没表有时间','25f9e794323b453885f5181f1b624d0b','13463486840','cbb3acfe02230f35d9151edfc4a93d8a.jpg',0,'Ta什么都没有留下~');
+
+
 /**表02、用户关注表   user_follow**/
 CREATE TABLE user_follow(
   follow_id INT PRIMARY KEY AUTO_INCREMENT COMMENT '关注id，主键且自增',
@@ -27,12 +45,98 @@ CREATE TABLE user_follow(
   followed_user_id INT COMMENT '被关注用户id，外键，参照用户信息表用户id'
 )ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
 
+/******02_用户关注表数据插入******/
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1010,1007);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1008,1012);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1008,1011);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1003,1009);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1010,1005);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1013,1001);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1010,1013);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1011,1009);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1002,1006);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1007,1009);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1005,1009);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1007,1008);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1010,1008);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1013,1012);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1010,1011);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1010,1001);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1012,1006);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1009,1005);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1008,1009);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1001,1002);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1010,1001);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1008,1010);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1010,1003);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1007,1006);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1004,1009);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1012,1011);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1009,1003);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1003,1002);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1012,1005);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1012,1002);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1011,1006);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1012,1001);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1012,1004);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1010,1012);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1003,1007);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1011,1012);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1008,1004);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1013,1003);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1007,1005);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1007,1004);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1002,1010);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1013,1001);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1013,1006);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1003,1007);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1013,1001);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1007,1011);
+INSERT INTO user_follow(user_id,followed_user_id) VALUES (1013,1008);
+
 /**表03、打卡签到表   user_sign**/
 CREATE TABLE user_sign(
   sign_id INT PRIMARY KEY AUTO_INCREMENT COMMENT '签到id，主键且自增',
   user_id INT COMMENT '用户id，外键，参照用户信息表用户id',
   sign_at INT COMMENT '签到时间，存放距计算机元年毫秒数'
 )ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
+
+
+/******03_打卡签到表数据插入******/
+INSERT INTO user_sign(user_id,sign_at) VALUES (1007,1589984100177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1010,1590502500177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1013,1590502500177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1010,1590416100177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1010,1591366500177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1012,1590156900177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1009,1590675300177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1008,1590675300177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1001,1590329700177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1010,1591107300177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1008,1591193700177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1010,1591020900177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1007,1590329700177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1004,1590934500177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1012,1590416100177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1009,1591366500177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1003,1590502500177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1012,1590675300177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1012,1590070500177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1011,1589984100177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1011,1591020900177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1008,1590243300177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1013,1590502500177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1007,1591539300177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1007,1591280100177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1002,1590329700177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1013,1590848100177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1013,1591539300177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1003,1590070500177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1013,1590243300177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1007,1591280100177);
+INSERT INTO user_sign(user_id,sign_at) VALUES (1013,1591193700177);
+
+
 
 /**表04、用户动态表   user_post**/
 CREATE TABLE user_post(
@@ -147,7 +251,8 @@ INSERT INTO `ency_article` VALUES ('38', '5', 'test', '1', '1591868105', '01.jpg
 CREATE TABLE article_collect(
   collect_id INT PRIMARY KEY AUTO_INCREMENT COMMENT '收藏id，主键且自增',
   user_id INT COMMENT '用户id,外键,参照用户信息id',
-  article_id INT COMMENT  '文章id,外键,参照文章表id'
+  collect_upid INT COMMENT  '收藏类型id（例如若收藏动态，为动态id，若   收藏文章，为文章id）',
+  collect_type INT COMMENT '收藏类型（1-收藏动态，2收藏文章）'
 )ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
 
 /**表11、运动类别表   sport_category**/
