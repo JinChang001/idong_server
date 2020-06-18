@@ -12,6 +12,7 @@ const multer = require('multer');
 const fs = require('fs');
 // 加载uuid模块
 const uuid = require('uuid');
+const { json } = require('body-parser');
 //创建MySQL连接池
 const pool = mysql.createPool({
     //MySQL数据库服务器的地址
@@ -120,7 +121,172 @@ server.post('/setRead',(req,res)=>{
     });
 })
 
+//用户注册API
+server.post('/register',(req,res)=>{    
+  //获取用户的注册信息
+  var username = req.body.username;
+  var password = md5(req.body.password);
 
+  //查询是否存在输入的用户名,如果不存在,则将数据写入到数据表
+  //如果存在,则返回错误信息给客户端
+  var sql = "SELECT COUNT(id) AS count FROM xzqa_author WHERE username=?"; 
+  pool.query(sql,[username],(err,results)=>{
+      if(err) throw err;        
+      //用户已经存在
+      if(results[0].count == 1){
+          res.send({message:'注册失败',code:201})
+      }  else {
+          //将获取到的用户信息写入到数据表
+          sql = 'INSERT xzqa_author(username,password) VALUES(?,?)';
+          pool.query(sql,[username,password],(err,results)=>{
+             if(err) throw err;
+             res.send({message:'注册成功',code:200});
+          });
+      }
+  })
+
+});
+
+//用户登录API
+server.post('/login',(req,res)=>{
+  //获取用户登录的信息
+  var username = req.body.username;
+  var password = md5(req.body.password);
+  //以用户名和密码为条件进行查找
+  var sql = "SELECT id,username FROM xzqa_author WHERE username=? AND password=?";
+  pool.query(sql,[username,password],(err,results)=>{
+      if(err) throw err;
+      if(results.length == 0){
+          res.send({message:'登录失败',code:202});
+      } else {
+          res.send({message:'登录成功',code:200,info:results[0]});
+      }
+  });
+});
+
+
+
+// 自定义存储规则
+var storagePost = multer.diskStorage({
+  destination:function(req,file,cb){
+    path = 'upload';
+    // 构建Date对象
+    var now = new Date();
+    var fullYear = now.getFullYear();
+    var month = now.getMonth() + 1;
+    month = month < 10 ? '0' + month : month;
+    var day = now.getDate();
+    day = day < 10 ? '0' + day : day;
+    cb(null,path);
+  },
+  filename:function(req,file,cb){
+    // 获取上传文件的原始名称
+    var extension = file.originalname.substr(file.originalname.lastIndexOf('.') + 1).toLowerCase();
+    // a.jpg a为主文件名称 .  jpg为扩展名
+    var mainname = uuid.v1();
+    filename = mainname + '.' + extension;
+    cb(null,filename);
+  }
+});
+uploadPost = multer({storage:storagePost});
+
+
+
+// 传单张图片
+server.post('/postImg',uploadPost.single('file'),(req,res)=>{
+  //接收前台POST过来的base64
+  var base64 = req.body.Base64Str;
+  var fileType = req.body.AttachmentType;
+  var base64Data = base64.replace(/^data:image\/\w+;base64,/, "");
+  // console.log(base64,fileType);
+  //过滤data:URL
+  var dataBuffer = new Buffer(base64Data, 'base64');
+  // 图片名称
+  var filename = uuid.v1() + '.' + fileType;
+  var path = `./public/images/post/${filename}`;
+  fs.writeFile(path, dataBuffer, (err) => {
+    if(err){
+      res.send(err);
+    } else {
+      res.send({code:200,filename:filename});
+    }
+  });
+});
+
+
+// 发布动态
+server.post('/postcontent',(req,res)=>{
+  var user_id = req.body.user_id;
+  var content = req.body.Subject;
+  var file = req.body.Files;
+})
+
+
+/**
+ * 
+ * 
+ * 
+ */
+// 获取动态信息
+server.get('/getPosts',(req,res)=>{
+  // 获取地址栏请求的参数---page(当前页码)
+  var page = req.query.page;
+  // 设置每页显示的记录数
+  var pagesize = 3;
+  // 页码应该是滚动触发loadMore函数时提交给服务器
+  var offset = ( page - 1 ) * pagesize;
+  // 存储计算后的分页总页数
+  var pagecount = 0;
+  // 存储要返回给前端的对象
+  var postObj = [];
+
+  // 查询数据库动态表中动态总数
+  var sql = `SELECT COUNT(post_id) AS count FROM user_post`;
+  pool.query(sql,(err,results)=>{
+    if( err ) throw err;
+    pagecount = Math.ceil(results[0].count / pagesize);
+  });
+  // 获取从下标offset开始 取pagesize条动态的信息
+  var sql = `SELECT post_id,user_id,post_content,post_at,post_img_num FROM user_post LIMIT ${offset},${pagesize}`;
+  pool.query(sql,(err,results)=>{
+    if(err) throw err;
+    postObj = copyFn(results);
+    // console.log(postObj[0]);
+    // res.send({messgae:'查询成功',code:200,articles:results,pagecount:pagecount});
+
+    // 查询各个动态下的图片
+    for(let i = 0;i < pagesize;i++){
+      var sql = `SELECT img_id,img_name,img_oid FROM user_img WHERE post_id=?`;
+      pool.query(sql,[postObj[i].post_id],(err,results)=>{
+        if(err) throw err;
+        // console.log(copyFn(results));
+        postObj[i].imgs = copyFn(results);
+        // postObj[i].imgs[i] = copyFn(results);
+        // console.log(postObj[i]);
+        // console.log(i);
+        // console.log(postObj[i]);
+        // console.log("---------------");
+        // res.send({messgae:'查询成功',code:200,articles:results,pagecount:pagecount});
+      });
+    }
+    console.log(postObj[0]);
+  });
+})
 
 server.listen(9001);
 
+// 对象的深克隆
+function copyFn(obj) {
+  if (obj == null) { return null } 
+  var result = Array.isArray(obj) ? [] : {}; 
+  for (let key in obj) { 
+      if (obj.hasOwnProperty(key)) { 
+          if (typeof obj[key] === 'object') { 
+          result[key] = copyFn(obj[key]); // 如果是对象，再次调用该方法自身 
+          } else { 
+          result[key] = obj[key]; 
+          } 
+      } 
+  } 
+  return result; 
+}
