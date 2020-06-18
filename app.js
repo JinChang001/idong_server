@@ -298,7 +298,7 @@ server.get('/getPosts', (req, res) => {
   // 存储计算后的分页总页数
   var pagecount = 0;
   // 存储要返回给前端的对象
-  var postObj = [];
+  let postObj = [];
 
   // 查询数据库动态表中动态总数
   var sql = `SELECT COUNT(post_id) AS count FROM user_post`;
