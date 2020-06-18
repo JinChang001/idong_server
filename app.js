@@ -77,14 +77,15 @@ server.get('/getArticles',(req,res)=>{
     });
     //页码应该是滚动触发loadMore()函数时提交给服务器
     var offset = (page - 1) * pagesize;
+    // console.log(offset)
     //以获取到的cid参数为条件查询该分类下的文章信息
-    sql = 'SELECT article_id,article_title,article_image,read_count,is_hot FROM ency_article WHERE ency_category_id=? LIMIT ' + offset + ',' + pagesize;
+    sql = 'SELECT article_id,article_title,article_image,read_count FROM ency_article WHERE ency_category_id=?  order by read_count desc LIMIT ' + offset + ',' + pagesize;
 
     //执行SQL查询
     pool.query(sql,[cid],(err,results)=>{
 
         if(err) throw err;
-
+        // console.log(results)
         res.send({message:'查询成功',code:200,articles:results,pagecount:pagecount});
     });
 
